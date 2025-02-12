@@ -51,7 +51,7 @@ export const MembersModal = () => {
   const [loadingId, setLoadingId] = useState("");
 
   const isModalOpen = isOpen && type === "members";
-  const { server } = data as { server: ServerWithMembersWithProfiles };
+  const server = data?.server as ServerWithMembersWithProfiles;
 
   const onKick = async (memberId: string) => {
     try {
