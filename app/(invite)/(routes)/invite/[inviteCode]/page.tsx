@@ -12,7 +12,7 @@ const InviteCodePage = async ({ params }: InviteCodePageProps) => {
   const profile = await currentProfile();
   if (!profile) {
     const { redirectToSignIn } = await auth();
-    return redirectToSignIn;
+    return redirectToSignIn();
   }
 
   const { inviteCode } = await params;
