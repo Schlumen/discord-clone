@@ -19,6 +19,7 @@ import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { FileUpload } from "@/components/file-upload";
 import { useModal } from "@/hooks/use-modal-store";
+import { useState } from "react";
 
 const formSchema = z.object({
   fileUrl: z.string().min(1, { message: "Attachment is required" }),
@@ -26,6 +27,7 @@ const formSchema = z.object({
 
 export const MessageFileModal = () => {
   const { isOpen, onClose, type, data } = useModal();
+  const [fileType, setFileType] = useState<string>("");
   const router = useRouter();
 
   const isModalOpen = isOpen && type === "messageFile";
@@ -51,7 +53,7 @@ export const MessageFileModal = () => {
         url: apiUrl || "",
         query,
       });
-      await axios.post(url, { ...values, content: values.fileUrl });
+      await axios.post(url, { ...values, content: fileType });
 
       form.reset();
       router.refresh();
@@ -85,7 +87,10 @@ export const MessageFileModal = () => {
                         <FileUpload
                           endpoint="messageFile"
                           value={field.value}
-                          onChange={field.onChange}
+                          onChange={(url, type = "") => {
+                            setFileType(type);
+                            field.onChange(url);
+                          }}
                         />
                       </FormControl>
                     </FormItem>

@@ -7,7 +7,7 @@ import { UploadDropzone } from "@/lib/uploadthing";
 import { useState } from "react";
 
 interface FileUploadProps {
-  onChange: (url?: string) => void;
+  onChange: (url?: string, type?: string) => void;
   value: string;
   endpoint: "serverImage" | "messageFile";
 }
@@ -64,7 +64,7 @@ export const FileUpload = ({ onChange, value, endpoint }: FileUploadProps) => {
       endpoint={endpoint}
       onClientUploadComplete={res => {
         setFileType(res?.[0].type);
-        onChange(res?.[0].url);
+        onChange(res?.[0].url, res?.[0].type);
       }}
       onUploadError={(error: Error) => {
         console.log(error);
